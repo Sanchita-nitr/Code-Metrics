@@ -1,4 +1,3 @@
-// filepath: /Users/sanchita/Documents/Code-Metrics/code-metrics/backend/server.js
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
