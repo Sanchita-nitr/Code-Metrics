@@ -10,7 +10,7 @@ const ForgotPasswordForm = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8000/api/forgot-password', {
+      const response = await fetch(`${process.env.REACT_APP_API}/api/forgot-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -20,14 +20,14 @@ const ForgotPasswordForm = () => {
 
       const data = await response.json();
       if (response.ok) {
-        alert('Password Reset Successful');
+        alert('Password reset successful');
         navigate('/login');
       } else {
         alert(data.error || 'An error occurred');
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('An error occurred');
+      alert('An error occurred while resetting the password');
     }
   };
 
@@ -60,7 +60,7 @@ const ForgotPasswordForm = () => {
             className='bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
             type='submit'
           >
-            Reset Password
+            Submit
           </button>
         </div>
       </div>

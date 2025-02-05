@@ -9,11 +9,16 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+// ✅ Fix: Add a root route to prevent "Cannot GET /"
+app.get("/", (req, res) => {
+  res.send("Backend is running!");
+});
+
 // Routes
 app.use("/api", authRoutes);
 
 // Start server
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`🚀 Server is running on port ${PORT}`);
 });
