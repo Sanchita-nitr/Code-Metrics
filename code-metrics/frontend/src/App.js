@@ -22,7 +22,7 @@ function App() {
         <div className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path='/dashboard' element={<PrivateRoute element={Dashboard} />} />
+            <Route path='/dashboard' element={<Dashboard/>}/>
             <Route path='/login' element={<LoginForm />} />
             <Route path='/signup' element={<SignUpForm />} />
             <Route path='/forgotpassword' element={<ForgotPasswordForm />} />
