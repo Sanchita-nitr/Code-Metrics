@@ -1,4 +1,4 @@
-// filepath: /Users/sanchita/Documents/Code-Metrics/code-metrics/backend/models/User.js
+
 const db = require("../config/db");
 
 const User = {

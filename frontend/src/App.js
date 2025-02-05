@@ -1,8 +1,8 @@
-// filepath: /Users/sanchita/Documents/Code-Metrics/code-metrics/frontend/src/App.js
+
 import React from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginForm from './auth/LoginForm';
 import SignUpForm from './auth/SignUpForm';
 import ForgotPasswordForm from './auth/ForgotPasswordForm';
@@ -10,10 +10,6 @@ import Home from './pages/Home';
 import Footer from './components/Footer';
 import Dashboard from './pages/Dashboard';
 
-const PrivateRoute = ({ element: Component, ...rest }) => {
-  const token = localStorage.getItem('token');
-  return token ? <Component {...rest} /> : <Navigate to="/login" />;
-};
 function App() {
   return (
     <Router>

@@ -1,4 +1,4 @@
-// filepath: /Users/sanchita/Documents/Code-Metrics/code-metrics/backend/routes/authRoutes.js
+
 const express = require("express");
 const { register, login, logout, forgotPassword } = require("../controllers/authController");
 const router = express.Router();

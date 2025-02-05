@@ -1,4 +1,4 @@
-// filepath: /Users/sanchita/Documents/Code-Metrics/code-metrics/backend/middleware/authMiddleware.js
+
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
