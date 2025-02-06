@@ -9,14 +9,24 @@ import ForgotPasswordForm from './auth/ForgotPasswordForm';
 import Home from './pages/Home';
 import Footer from './components/Footer';
 import Dashboard from './pages/Dashboard';
+// import Sidebar from './components/Sidebar';
+import CodeTracker from './components/CodeTracker';
+import PerformanceChart from './components/PerformanceChart';
+import StreakTracker from './components/StreakTracker';
+import Recommendation from './components/Recomendation';
 
 function App() {
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
         <Navbar />
+        {/* <Sidebar/> */}
         <div className="flex-grow">
           <Routes>
+            <Route path="/recommendation" element={<Recommendation />} />
+            <Route path="/streakTracker" element={<StreakTracker />} />
+            <Route path="/performanceChart" element={<PerformanceChart />} />
+            <Route path="/codeTracker" element={<CodeTracker/>} />
             <Route path="/" element={<Home />} />
             <Route path='/dashboard' element={<Dashboard/>}/>
             <Route path='/login' element={<LoginForm />} />

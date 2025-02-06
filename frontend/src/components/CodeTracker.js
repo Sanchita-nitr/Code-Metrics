@@ -1,12 +1,12 @@
-import React from 'react'
-import CodeTracker from '../../../code-metrics/frontend/src/components/CodeTracker';
+import React from "react";
 
 const CodeTracker = () => {
   return (
-    <div>
-      CodeTracker
+    <div className="p-6">
+      <h2 className="text-2xl font-bold">Code Tracker</h2>
+      <p className="text-gray-700">Monitor your coding journey here.</p>
     </div>
-  )
-}
+  );
+};
 
-export default CodeTracker
+export default CodeTracker;

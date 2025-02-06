@@ -1,10 +1,10 @@
 import React from 'react';
+import { FaHome, FaSignInAlt, FaSignOutAlt, FaTachometerAlt, FaUserPlus } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaHome, FaTachometerAlt, FaSignInAlt, FaUserPlus, FaSignOutAlt } from 'react-icons/fa';
+// import Sidebar from './Sidebar';
 
 const Navbar = () => {
   const navigate = useNavigate();
-
   const handleLogout = async () => {
     // Clear the token from localStorage
     localStorage.removeItem('token');
@@ -40,6 +40,21 @@ const Navbar = () => {
           <button onClick={handleLogout} className='flex items-center text-white hover:text-gray-300'>
             <FaSignOutAlt className='mr-1' /> Log Out
           </button>
+          <Link to='/codeTracker' className='flex items-center text-white hover:text-gray-300'>
+            <FaTachometerAlt className='mr-1' /> Code Tracker
+          </Link>
+          <Link to='/performanceChart' className='flex items-center text-white hover:text-gray-300'>
+            <FaTachometerAlt className='mr-1' /> Performance Chart
+          </Link>
+          <Link to='/streakTracker' className='flex items-center text-white hover:text-gray-300'>
+            <FaTachometerAlt className='mr-1' /> Streaks
+          </Link>
+          <Link to='/recommendation' className='flex items-center text-white hover:text-gray-300'>
+            <FaTachometerAlt className='mr-1' /> Recommendations
+          </Link>
+          {/* <button>
+            <Sidebar/>
+          </button> */}
         </div>
       </div>
     </nav>

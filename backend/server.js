@@ -18,6 +18,12 @@ app.get("/signup", (req, res) => {
 app.get("/", (req, res) => {
   res.send("Welcome to the backend server!");
 });
+app.get("/dashboard", (req, res) => {
+  res.send("Welcome to the dashboard!");
+});
+app.get("/profile", (req, res) => {
+  res.send("Welcome to your profile!");
+});
 // Routes
 app.use("/api", authRoutes);
 // Start server
