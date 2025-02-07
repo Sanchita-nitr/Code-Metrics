@@ -4,8 +4,7 @@ const router = express.Router();
 const db = require("../config/db");
 const authMiddleware = require("../middleware/authMiddleware");
 
-// Get user coding profiles & stats
-router.get("/dashboard", authMiddleware, async (req, res) => {
+router.post("/loginWithPlatform", authMiddleware, async (req, res) => {
     try {
         const userId = req.user.id;
 
@@ -25,7 +24,7 @@ router.get("/dashboard", authMiddleware, async (req, res) => {
             let hackerearthData = {};
 
 
-            // Fetch LeetCode data
+            // Fetch user data from MySQL
             if (leetcode_username) {
                 try {
                     const lcResponse = await axios.get(`https://codeforces.com/api/user.info?handles=${leetcode_username}`);
@@ -51,53 +50,11 @@ router.get("/dashboard", authMiddleware, async (req, res) => {
                     console.error("Error fetching CodeForces data:", error);
                 }
             }
-             // Fetch  hackerrank data
-             if ( hackerrank_username) {
-                try {
-                    const hrResponse = await axios.get(`https://codeforces.com/api/user.info?handles=${ hackerrank_username}`);
-                    hackerrankData = {
-                        username:  hackerrank_username,
-                        rating: hrResponse.data.result[0].rating,
-                        rank: hrResponse.data.result[0].rank
-                    };
-                } catch (error) {
-                    console.error("Error fetching HackerRank data:", error);
-                }
-            }
-             // Fetch  codechef data
-             if ( codechef_username) {
-                try {
-                    const ccResponse = await axios.get(`https://codeforces.com/api/user.info?handles=${ codechef_username}`);
-                    codechefData = {
-                        username:  codechef_username,
-                        rating: ccResponse.data.result[0].rating,
-                        rank: ccResponse.data.result[0].rank
-                    };
-                } catch (error) {
-                    console.error("Error fetching CodeChef data:", error);
-                }
-            }
-             // Fetch  hackerearth data
-             if ( hackerearth_username) {
-                try {
-                    const heResponse = await axios.get(`https://codeforces.com/api/user.info?handles=${ hackerearth_username}`);
-                    hackerearthData = {
-                        username:  hackerearth_username,
-                        rating: heResponse.data.result[0].rating,
-                        rank: heResponse.data.result[0].rank
-                    };
-                } catch (error) {
-                    console.error("Error fetching HackerEarth data:", error);
-                }
-            }
+             // Remove loginWithPlatform functionality from here
 
 
             // Response
-            res.json({
-                username: user.name,
-                email: user.email,
-                codingProfiles: { leetcode: leetcodeData, codeforces: codeforcesData, hackerrank: hackerrankData, codechef: codechefData, hackerearth: hackerearthData }
-            });
+            res.json({ message: "User logged in successfully!" });
         });
     } catch (error) {
         console.error(error);

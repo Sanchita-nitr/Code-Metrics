@@ -3,6 +3,59 @@ const jwt = require("jsonwebtoken");
 const db = require("../config/db");
 require("dotenv").config();
 
+exports.loginWithPlatform = async (req, res) => {
+  const { platform, username } = req.body;
+
+  try {
+    if (!platform || !username || !password) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    const query = `SELECT * FROM users WHERE ${platform}_username = ? AND ${platform}_username IS NOT NULL`;
+    db.query(query, [username], async (err, results) => {
+      if (err) {
+        console.error("Database error during login:", err);
+        return res.status(500).json({ error: "Database error" });
+      }
+      if (results.length === 0) {
+        return res.status(401).json({ error: "Invalid username or password" });
+      }
+
+      const user = results[0];
+      if (!user) {
+        return res.status(404).json({ error: "User not registered with this platform" });
+      }
+
+      return res.json({ message: "User logged in successfully!" });
+    });
+  } catch (error) {
+    console.error("Unexpected Error during login:", error);
+    return res.status(500).json({ error: "An unexpected error occurred" });
+  }
+};
+
+exports.getUserPerformance = async (req, res) => {
+    const userId = req.user.id;
+    const { platform } = req.params;
+  
+    try {
+      const query = `SELECT * FROM ${platform}_performance WHERE user_id = ?`;
+      db.query(query, [userId], (err, results) => {
+        if (err) {
+          console.error("Database error during fetching performance data:", err);
+          return res.status(500).json({ error: "Database error" });
+        }
+        if (results.length === 0) {
+          return res.status(404).json({ error: "No performance data found" });
+        }
+  
+        return res.json(results);
+      });
+    } catch (error) {
+      console.error("Unexpected Error during fetching performance data:", error);
+      return res.status(500).json({ error: "An unexpected error occurred" });
+    }
+  };
 // ✅ Sign Up
 exports.register = async (req, res) => {
     const { name, email, password, confirmPassword } = req.body;

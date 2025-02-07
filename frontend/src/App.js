@@ -1,6 +1,5 @@
 
 import React from 'react';
-import './App.css';
 import Navbar from './components/Navbar';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginForm from './auth/LoginForm';
@@ -14,6 +13,7 @@ import CodeTracker from './components/CodeTracker';
 import PerformanceChart from './components/PerformanceChart';
 import StreakTracker from './components/StreakTracker';
 import Recommendation from './components/Recomendation';
+import LeetCodeDashboard from './pages/LeetCodeDashboard';
 
 function App() {
   return (
@@ -28,6 +28,7 @@ function App() {
             <Route path="/performanceChart" element={<PerformanceChart />} />
             <Route path="/codeTracker" element={<CodeTracker/>} />
             <Route path="/" element={<Home />} />
+            <Route path='/leetcodeDashboard' element={<LeetCodeDashboard/>} />
             <Route path='/dashboard' element={<Dashboard/>}/>
             <Route path='/login' element={<LoginForm />} />
             <Route path='/signup' element={<SignUpForm />} />
