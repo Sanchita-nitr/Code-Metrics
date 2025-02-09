@@ -160,13 +160,13 @@ const Home = () => {
       {/* Footer Section */}
       <footer className="bg-gray-800  text-white py-12">
         <div className="container mx-auto text-center">
-          <p className="text-lg mb-4">&copy; 2025 Code Metrics. All Rights Reserved.</p>
           <div className="flex justify-center space-x-6">
             <a href="/privacy-policy" className="hover:text-blue-400 transition duration-300">Privacy Policy</a>
             <a href="/terms-of-service" className="hover:text-blue-400 transition duration-300">Terms of Service</a>
-            <a href="/contact" className="hover:text-blue-400 transition duration-300">Contact Us</a>
           </div>
+          <p className="text-lg mb-4">&copy; 2025 Code Metrics. All Rights Reserved.</p>
         </div>
+        
       </footer>
     </div>
   );
