@@ -4,7 +4,7 @@ const db = require("../config/db");
 require("dotenv").config();
 
 exports.loginWithPlatform = async (req, res) => {
-  const { platform, username } = req.body;
+  const { platform, username, timeSpent, questionsSolved } = req.body;
 
   try {
     if (!platform || !username || !password) {
@@ -25,6 +25,14 @@ exports.loginWithPlatform = async (req, res) => {
       if (!user) {
         return res.status(404).json({ error: "User not registered with this platform" });
       }
+
+      // Update performance data
+      const performanceQuery = `INSERT INTO performance (user_id, platform, time_spent, questions_solved, date) VALUES (?, ?, ?, ?, CURDATE()) ON DUPLICATE KEY UPDATE time_spent = ?, questions_solved = ?`;
+      db.query(performanceQuery, [user.id, platform, timeSpent, questionsSolved, timeSpent, questionsSolved], (err) => {
+        if (err) {
+          console.error("Error updating performance data:", err);
+        }
+      });
 
       return res.json({ message: "User logged in successfully!" });
     });
@@ -86,6 +94,7 @@ exports.register = async (req, res) => {
 
             // Insert the new user into the database
             const sql = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
+    // Ensure that the password is hashed before storing
             db.query(sql, [name, email, hashedPassword], (err, result) => {
                 if (err) {
                     console.error("Database error during registration:", err);

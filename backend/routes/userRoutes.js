@@ -1,64 +1,53 @@
+import axios from "axios";
+import express from "express";
+import db from "../config/db.js";
+
 const express = require("express");
-const axios = require("axios");
+const axios = require("axios").default;
 const router = express.Router();
 const db = require("../config/db");
 const authMiddleware = require("../middleware/authMiddleware");
 
-router.post("/loginWithPlatform", authMiddleware, async (req, res) => {
+// New endpoint to update performance data
+router.post("/updatePerformance", authMiddleware, async (req, res) => {
+    const { platform, timeSpent, questionsSolved } = req.body;
+    const userId = req.user.id;
+
     try {
-        const userId = req.user.id;
-
-        // Fetch user data from MySQL
-        db.query("SELECT name, email, leetcode_username, codeforces_username, hackerrank_username, codechef_username, hackerearth_username FROM users WHERE id = ?", [userId], async (err, results) => {
-            if (err) return res.status(500).json({ message: "Database error" });
-
-            if (results.length === 0) return res.status(404).json({ message: "User not found" });
-
-            const user = results[0];
-            const { leetcode_username, codeforces_username, hackerrank_username, codechef_username, hackerearth_username } = user;
-
-            let leetcodeData = {};
-            let codeforcesData = {};
-            let hackerrankData = {};
-            let codechefData = {};
-            let hackerearthData = {};
-
-
-            // Fetch user data from MySQL
-            if (leetcode_username) {
-                try {
-                    const lcResponse = await axios.get(`https://codeforces.com/api/user.info?handles=${leetcode_username}`);
-                    leetcodeData = {
-                        username: leetcode_username,
-                        rating: lcResponse.data.result[0].rating,
-                        rank: lcResponse.data.result[0].rank
-                    };
-                } catch (error) {
-                    console.error("Error fetching LeetCode data:", error);
-                }
+        const performanceQuery = `INSERT INTO performance (user_id, platform, time_spent, questions_solved, date) VALUES (?, ?, ?, ?, CURDATE()) ON DUPLICATE KEY UPDATE time_spent = time_spent + ?, questions_solved = questions_solved + ?`;
+        db.query(performanceQuery, [userId, platform, timeSpent, questionsSolved], (err) => {
+            if (err) {
+                console.error("Error updating performance data:", err);
+                return res.status(500).json({ error: "Database error" });
             }
-            // Fetch CodeForces data
-            if (codeforces_username) {
-                try {
-                    const cfResponse = await axios.get(`https://codeforces.com/api/user.info?handles=${codeforces_username}`);
-                    codeforcesData = {
-                        username: codeforces_username,
-                        rating: cfResponse.data.result[0].rating,
-                        rank: cfResponse.data.result[0].rank
-                    };
-                } catch (error) {
-                    console.error("Error fetching CodeForces data:", error);
-                }
-            }
-             // Remove loginWithPlatform functionality from here
-
-
-            // Response
-            res.json({ message: "User logged in successfully!" });
+            return res.json({ message: "Performance data updated successfully!" });
         });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Server error" });
+        console.error("Unexpected error during performance update:", error);
+        return res.status(500).json({ error: "An unexpected error occurred" });
+    }
+});
+
+// New endpoint to get user performance data
+router.get("/performance/:platform", authMiddleware, async (req, res) => {
+    const userId = req.user.id;
+    const { platform } = req.params;
+
+    try {
+        const query = `SELECT * FROM performance WHERE user_id = ? AND platform = ?`;
+        db.query(query, [userId, platform], (err, results) => {
+            if (err) {
+                console.error("Database error during fetching performance data:", err);
+                return res.status(500).json({ error: "Database error" });
+            }
+            if (results.length === 0) {
+                return res.status(404).json({ error: "No performance data found" });
+            }
+            return res.json(results);
+        });
+    } catch (error) {
+        console.error("Unexpected error during fetching performance data:", error);
+        return res.status(500).json({ error: "An unexpected error occurred" });
     }
 });
 
